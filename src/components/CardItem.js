@@ -20,7 +20,7 @@ function CardItem(props) {
 }
 
 CardItem.propTypes={
-    food:PropTypes.array.isRequired
+    food:PropTypes.object.isRequired
 }
 
 export default CardItem
