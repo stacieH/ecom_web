@@ -17,6 +17,11 @@ module.exports = {
     "plugins": [
         "react"
     ],
+    "settings": {
+        "react": {
+          "version": 'latest',
+        },
+    },
     "parser":"babel-eslint",
     "rules": {
     }
