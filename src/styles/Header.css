@@ -1,0 +1,35 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(255, 111, 0);
+  }
+  header > h1{
+    margin-left: 20px;
+    cursor: pointer;
+  }
+  
+  nav.navigation > ul{
+    list-style: none;
+    padding:0 20px;
+  }
+  
+  nav.navigation > ul > li{
+    cursor: pointer;
+  }
+  
+  li.cart-navigation{
+    display: inline;
+  }
+  
+  li.cart-navigation > span.badge{
+    position: absolute;
+    margin-left: 2px;
+    background-color: rgb(255, 247, 0);
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    color: rgb(16, 16, 16);
+    font-size: 10px;
+  }
