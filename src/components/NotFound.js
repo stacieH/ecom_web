@@ -1,11 +1,11 @@
-import React, { Fragment } from 'react'
+import React, { Fragment } from 'react';
 
-function NotFound(){
-    return(
-        <Fragment>
-            <p>Page doesn't exists</p>
-        </Fragment>
-    )
+function NotFound() {
+  return (
+    <Fragment>
+      <p>Page doesn&apos;t exists</p>
+    </Fragment>
+  );
 }
 
-export default NotFound
+export default NotFound;

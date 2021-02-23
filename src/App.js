@@ -1,19 +1,21 @@
-import React, { Fragment, Suspense, lazy } from 'react';
+import React, { Fragment, Suspense } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
 import Header from './components/Header';
 import ErrorBoundary from './components/ErrorBoundary';
-
-const MainComponent = lazy(() => import('./pages/Main'));
+import RouterLists from './RouterLists';
 
 function App() {
   return (
     <Fragment>
-      <Header />
-      <ErrorBoundary>
-        <Suspense fallback={<div>loading</div>}>
-          <MainComponent />
-        </Suspense>
-      </ErrorBoundary>
+      <BrowserRouter>
+        <Header />
+        <ErrorBoundary>
+          <Suspense fallback={<div>loading</div>}>
+            <RouterLists />
+          </Suspense>
+        </ErrorBoundary>
+      </BrowserRouter>
     </Fragment>
   );
 }
