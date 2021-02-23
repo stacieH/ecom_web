@@ -17,12 +17,28 @@ module.exports={
                 enforce:"pre",
                 test:/\.js$/,
                 exclude: /node_modules/,
-                loader: "eslint-loader",
-                options:{
-                    emitWarning: true,
-                    failOnError: false,
-                    failOnWraning: false,
-                }
+                use:[
+                    {
+                        loader: "eslint-loader",
+                        options:{
+                            emitWarning: true,
+                            failOnError: false,
+                            failOnWraning: false,
+                        }
+                    },{
+                        loader: "prettier-loader",
+                        options:{
+                            semi: true,
+                            printWidth: 80,
+                            tabWidth: 2,
+                            useTabs: false,
+                            singleQuote: true,
+                            trailingComma: "all",
+                            bracketSpacing: true,
+                            jsxBracketSameLine: false,
+                        }
+                    }
+                ],
 
             },
             {
