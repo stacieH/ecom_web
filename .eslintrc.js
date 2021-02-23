@@ -24,5 +24,12 @@ module.exports = {
     },
     "parser":"babel-eslint",
     "rules": {
+        "quotes": ['error', 'single'],
+        "semi": ['error', 'always'],
+        "no-console": 'error',
+        "no-debugger": 'error',
+        "no-dupe-keys": 'error',
+        "no-unused-vars": ['error', { vars: 'all', args: 'after-used', ignoreRestSiblings: false }],
     }
 };
+
