@@ -62,7 +62,8 @@ module.exports={
         port:9000,
         disableHostCheck: false,
         open: true,
-        hot: true
+        hot: true,
+        historyApiFallback: true,
     },
     plugins:[
         new htmlWebpackPlugin({template:"./public/index.html"}),
