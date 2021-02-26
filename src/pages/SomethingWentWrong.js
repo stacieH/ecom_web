@@ -1,7 +1,7 @@
 import React from 'react';
 import WentWrongImg from '../assets/crayon1528.png';
 
-function WentWrongPage() {
+function SomethingWentWrong() {
   return (
     <div
       style={{
@@ -24,4 +24,4 @@ function WentWrongPage() {
   );
 }
 
-export default WentWrongPage;
+export default SomethingWentWrong;

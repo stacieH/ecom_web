@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 const MainComponent = lazy(() => import('./pages/Main'));
 const LoginComponent = lazy(() => import('./pages/Login'));
 const CartComponent = lazy(() => import('./pages/Cart'));
-const NotFoundComponent = lazy(() => import('./components/NotFound'));
+const NotFoundComponent = lazy(() => import('./pages/NotFound'));
 
 function RouterLists() {
   return (

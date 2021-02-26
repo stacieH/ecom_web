@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import WentWrongPage from './WentWrongPage';
+import SomethingWentWrong from '../pages/SomethingWentWrong';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
-      return <WentWrongPage />;
+      return <SomethingWentWrong />;
     }
     return this.props.children;
   }
