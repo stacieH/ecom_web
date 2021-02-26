@@ -1,8 +1,8 @@
 import { useDebugValue, useState } from 'react';
 
 function useUserLogin() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState(null);
+  const [password, setPassword] = useState(null);
 
   const setUser = (props) => {
     const name = Object.keys(props);
