@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import useUserLogin from './useUserLogin';
+import { UserContext } from '../components/MyContext';
 
 function Login() {
-  const [user, setUser] = useUserLogin();
-  const { username, password } = user;
-  const navigate = useNavigate(); //v6 -> useNavigate()
+  const { setLoginUser } = useContext(UserContext);
+  const navigate = useNavigate(); //v5 -> useHistory()
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    navigate('/');
+  // custom hook
+  const [{ username, password }, setUser] = useUserLogin();
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      await setLoginUser({ username, password });
+      await navigate('/');
+    } catch (err) {
+      throw new Error(err);
+    }
   };
 
   const handleChange = (e) => {
