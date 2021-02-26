@@ -5,8 +5,6 @@ import LoadingCard from '../components/LoadingCard';
 
 import * as API from '../utils/API';
 
-import '../styles/Card.css';
-
 function Main() {
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
