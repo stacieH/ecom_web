@@ -12,7 +12,7 @@ function Header() {
   return (
     <header>
       <h1>
-        <Link to="/">Food Catalog</Link>
+        <Link to="/">Food</Link>
       </h1>
       {!isLogin && (
         <nav className="navigation">
