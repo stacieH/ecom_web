@@ -16,6 +16,7 @@ const Provider = UserContext.Provider;
 import './styles/Card.css';
 import './styles/Header.css';
 import './styles/index.css';
+import Loading from './components/Loading';
 
 function App() {
   const [loginUser, setLoginUser] = useState(null);
@@ -31,7 +32,7 @@ function App() {
         <BrowserRouter>
           <Header />
           <ErrorBoundary>
-            <Suspense fallback={<div>loading</div>}>
+            <Suspense fallback={<Loading />}>
               <RouterLists />
             </Suspense>
           </ErrorBoundary>
