@@ -29,12 +29,6 @@ function LoadingCard() {
             {' '}
           </div>
         </div>
-        <div
-          className="source animate-pulse"
-          style={{ backgroundColor: '#e8e8e8', width: 70, height: 20 }}
-        >
-          {' '}
-        </div>
       </div>
     </Fragment>
   );

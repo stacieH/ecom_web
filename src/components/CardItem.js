@@ -17,7 +17,6 @@ function CardItem(props) {
           <br />
           <span className="source">{source}</span>
         </div>
-        <button>Add Cart</button>
       </div>
     </Fragment>
   );
