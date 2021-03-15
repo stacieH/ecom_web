@@ -1,0 +1,24 @@
+.loading-icon{
+    height: 100px;
+    width: 100px;
+    border:10px solid rgb(174, 174, 174);
+    border-radius: 50%;
+    border-top-color: rgb(255, 111, 0);
+    animation: spin 1s linear infinite;
+}
+.loading-wrapper{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.7);
+    width: 100vw;
+    height: 100%;
+    z-index:1
+}
+
+@keyframes spin{
+    100%{
+        transform: rotate(360deg);
+    }
+}
