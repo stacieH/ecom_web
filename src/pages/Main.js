@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 
 import Card from '../components/Card';
+import { ChatPortal } from '../components/ChatPortal';
 import LoadingCard from '../components/LoadingCard';
 
 import * as API from '../utils/API';
@@ -44,6 +45,7 @@ function Main() {
       <div className="card-container">
         {loading ? emptyCard : <Card foods={foods} />}
       </div>
+      <ChatPortal />
     </Fragment>
   );
 }
