@@ -31,21 +31,32 @@ function Login() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <label>Username</label>
-        <input
-          type="text"
-          name="username"
-          value={username}
-          onChange={handleChange}
-        />
-
-        <label>Password</label>
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={handleChange}
-        />
+        <div>
+          <label htmlFor="username">Username</label>
+          <input
+            id="username"
+            type="text"
+            name="username"
+            value={username}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            value={password}
+            onChange={handleChange}
+          />
+        </div>
+        <a href="/password">Forgot Password?</a>
+        <div>gmail</div>
+        <div>facebook</div>
+        <p>
+          Do wou have an account? <a>Register now!</a>
+        </p>
 
         <button>Login</button>
       </form>
