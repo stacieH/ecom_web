@@ -33,3 +33,8 @@ header{
     color: rgb(16, 16, 16);
     font-size: 10px;
   }
+
+  .brandname{
+    color:rgb(17, 17, 17);
+    text-decoration: none;
+  }
