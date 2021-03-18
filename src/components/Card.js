@@ -4,11 +4,17 @@ import CardItem from '../components/CardItem';
 
 import '../styles/Card.css';
 function Card(props) {
-  const { foods } = props;
+  const { foods, addItem, removeItem } = props;
 
   if (foods.length > 0) {
-    const content = foods.map((food, index) => (
-      <CardItem key={index} food={food} />
+    const foodArray = foods.map((food, id) => ({ id, ...food }));
+    const content = foodArray.map((food) => (
+      <CardItem
+        key={food.id}
+        food={food}
+        addItem={addItem}
+        removeItem={removeItem}
+      />
     ));
 
     return <Fragment>{content}</Fragment>;

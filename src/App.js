@@ -1,20 +1,21 @@
 import React, { Fragment, Suspense, useMemo, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-// React Redux: Hook
-// import {Provider, createStoreHook} from 'react-redux'
-
-import Header from './components/Header';
-import ErrorBoundary from './components/ErrorBoundary';
-import RouterLists from './RouterLists';
-
 // React Hook: Context
 import { UserContext } from './components/MyContext';
-const Provider = UserContext.Provider;
 
-import './styles/index.css';
+// React Redux: Hook
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './redux/store';
 
+// components
+import Header from './components/Header';
+import ErrorBoundary from './components/ErrorBoundary';
 import Loading from './components/Loading';
+
+import RouterLists from './RouterLists';
+import './styles/index.css';
 
 function App() {
   const [loginUser, setLoginUser] = useState(null);
@@ -26,15 +27,17 @@ function App() {
 
   return (
     <Fragment>
-      <Provider value={value}>
-        <BrowserRouter>
-          <Header />
-          <ErrorBoundary>
-            <Suspense fallback={<Loading />}>
-              <RouterLists />
-            </Suspense>
-          </ErrorBoundary>
-        </BrowserRouter>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter>
+            <Header />
+            <ErrorBoundary>
+              <Suspense fallback={<Loading />}>
+                <RouterLists />
+              </Suspense>
+            </ErrorBoundary>
+          </BrowserRouter>
+        </PersistGate>
       </Provider>
     </Fragment>
   );

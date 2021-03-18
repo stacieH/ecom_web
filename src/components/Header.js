@@ -11,6 +11,9 @@ function Header() {
           Food
         </NavLink>
       </h1>
+      <nav>
+        <NavLink to="/cart">Cart</NavLink>
+      </nav>
     </header>
   );
 }

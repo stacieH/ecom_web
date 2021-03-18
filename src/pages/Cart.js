@@ -1,19 +1,40 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { removeFood } from '../redux/action';
 
 import Card from '../components/Card';
 import LoadingCard from '../components/LoadingCard';
 
 function Cart() {
-  const [foods] = useState([]);
+  const [foods, setFoods] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+  useEffect(() => {
+    setFoods(cart);
+  });
+
+  const handleRemoveFood = (id) => {
+    dispatch(removeFood(id));
+  };
 
   const emptyCard = Array(10)
-    .fill(' ')
-    .map((x, index) => <LoadingCard key={index} />);
+    .fill('')
+    .map((_, index) => <LoadingCard key={index} />);
 
   return (
     <Fragment>
       <div className="card-container">
-        {foods ? emptyCard : <Card foods={foods} />}
+        {loading ? (
+          emptyCard
+        ) : (
+          <Card foods={foods} removeItem={handleRemoveFood} />
+        )}
       </div>
     </Fragment>
   );

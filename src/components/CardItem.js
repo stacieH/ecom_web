@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 function CardItem(props) {
-  const { food } = props;
-  const { image, label, source } = food;
+  const { food, addItem, removeItem } = props;
+  const { image, label, source, id } = food;
   return (
     <Fragment>
       <div className="card">
@@ -17,6 +17,8 @@ function CardItem(props) {
           <br />
           <span className="source">{source}</span>
         </div>
+        {addItem && <button onClick={() => addItem(food)}>ADD</button>}
+        {removeItem && <button onClick={() => removeItem(id)}>REMOVE</button>}
       </div>
     </Fragment>
   );

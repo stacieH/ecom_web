@@ -1,4 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { fetchFoods, addFood } from '../redux/action';
 
 import Card from '../components/Card';
 import { ChatPortal } from '../components/ChatPortal';
@@ -9,20 +12,18 @@ import * as API from '../utils/API';
 function Main() {
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function getFoodie() {
       try {
         const res = await API.getFoods('seafood');
         const { hits } = res;
-        const foods = await hits.map((d) => {
-          const { recipe } = d;
-          if (recipe) {
-            const { image, label, source } = recipe;
-            return { image, label, source };
-          }
-          return d;
+        const foods = await hits.map((hit) => {
+          const { recipe } = hit;
+          return recipe;
         });
+        await dispatch(fetchFoods(foods));
         await setFoods(foods);
         await setLoading(false);
       } catch (err) {
@@ -32,18 +33,21 @@ function Main() {
     getFoodie();
   }, []);
 
+  const handleAddFood = (food) => {
+    dispatch(addFood({ ...food, added_date: new Date() }));
+  };
+
   if (!loading && foods.length === 0) {
     throw new Error('error catching foods');
   }
-
   const emptyCard = Array(10)
-    .fill(' ')
-    .map((x, index) => <LoadingCard key={index} />);
+    .fill('')
+    .map((_, index) => <LoadingCard key={index} />);
 
   return (
     <Fragment>
       <div className="card-container">
-        {loading ? emptyCard : <Card foods={foods} />}
+        {loading ? emptyCard : <Card foods={foods} addItem={handleAddFood} />}
       </div>
       <ChatPortal />
     </Fragment>

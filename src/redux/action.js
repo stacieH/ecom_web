@@ -1,0 +1,15 @@
+export const GET_FOODS = 'GET_FOODS';
+export const ADD_FOOD = 'ADD_FOOD';
+export const REMOVE_FOOD = 'REMOVE_FOOD';
+
+export const fetchFoods = (foods) => {
+  return { type: GET_FOODS, foods };
+};
+
+export const addFood = (payload) => {
+  return { type: ADD_FOOD, payload };
+};
+
+export const removeFood = (id) => {
+  return { type: REMOVE_FOOD, id };
+};
