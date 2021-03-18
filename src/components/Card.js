@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import CardItem from '../components/CardItem';
+
+import '../styles/Card.css';
 function Card(props) {
   const { foods } = props;
 
