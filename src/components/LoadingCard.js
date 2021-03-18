@@ -6,7 +6,7 @@ function LoadingCard() {
     <Fragment>
       <div className="card">
         <div
-          className="product-image animate-pulse"
+          className="product-image-loading animate-pulse"
           style={{ backgroundColor: '#e8e8e8' }}
         />
         <div className="product-details animate-pulse">

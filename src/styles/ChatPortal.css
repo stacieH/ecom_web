@@ -1,4 +1,5 @@
 .floating-chat{
+    position:-webkit-sticky; /*support Safari*/
     position:sticky;
     bottom:0;
     float: right;
