@@ -1,5 +1,6 @@
 const path = require("path")
 const htmlWebpackPlugin = require("html-webpack-plugin")
+const ESLintPlugin = require('eslint-webpack-plugin')
 
 const BUILD_DIR = path.join(__dirname, "dist")
 const APP_DIR = path.join(__dirname, "src")
@@ -17,15 +18,7 @@ module.exports={
                 enforce:"pre",
                 test:/\.js$/,
                 exclude: /node_modules/,
-                use:[
-                    {
-                        loader: "eslint-loader",
-                        options:{
-                            emitWarning: true,
-                            failOnError: false,
-                            failOnWraning: false,
-                        }
-                    },{
+                use:[{
                         loader: "prettier-loader",
                         options:{
                             semi: true,
@@ -67,5 +60,15 @@ module.exports={
     },
     plugins:[
         new htmlWebpackPlugin({template:"./public/index.html"}),
+        new ESLintPlugin({
+            // The warnings found will always be emitted, to disable set to false.
+            emitWarning: true,
+            //Will cause the module build to fail if there are any errors, 
+            // to disable set to false
+            failOnError: false,
+            // Will cause the module build to fail if there are any warnings, 
+            // if set to true.
+            failOnWarning: false, 
+        })
     ]
 }
