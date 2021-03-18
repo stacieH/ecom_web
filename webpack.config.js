@@ -1,6 +1,7 @@
 const path = require("path")
 const htmlWebpackPlugin = require("html-webpack-plugin")
 const ESLintPlugin = require('eslint-webpack-plugin')
+const PrettierPlugin = require('prettier-webpack-plugin')
 
 const BUILD_DIR = path.join(__dirname, "dist")
 const APP_DIR = path.join(__dirname, "src")
@@ -14,26 +15,6 @@ module.exports={
     },
     module:{
         rules:[
-            {
-                enforce:"pre",
-                test:/\.js$/,
-                exclude: /node_modules/,
-                use:[{
-                        loader: "prettier-loader",
-                        options:{
-                            semi: true,
-                            printWidth: 80,
-                            tabWidth: 2,
-                            useTabs: false,
-                            singleQuote: true,
-                            trailingComma: "all",
-                            bracketSpacing: true,
-                            jsxBracketSameLine: false,
-                        }
-                    }
-                ],
-
-            },
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node-modules/,
@@ -61,14 +42,20 @@ module.exports={
     plugins:[
         new htmlWebpackPlugin({template:"./public/index.html"}),
         new ESLintPlugin({
-            // The warnings found will always be emitted, to disable set to false.
             emitWarning: true,
-            //Will cause the module build to fail if there are any errors, 
-            // to disable set to false
             failOnError: false,
-            // Will cause the module build to fail if there are any warnings, 
-            // if set to true.
             failOnWarning: false, 
+        }),
+        new PrettierPlugin({
+            semi: true,
+            printWidth: 80,
+            tabWidth: 2,
+            useTabs: false,
+            singleQuote: true,
+            trailingComma: "all",
+            bracketSpacing: true,
+            jsxBracketSameLine: false,
+            extensions:['js','jsx']
         })
     ]
 }
