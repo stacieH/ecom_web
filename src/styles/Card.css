@@ -12,8 +12,10 @@ div.card {
 }
 
 div.card > .product-image{
-  width: 200px;
-  height: 200px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 3px;
+
 }
 div.card > div.product-details{
   margin: 20px 0;
