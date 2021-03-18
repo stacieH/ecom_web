@@ -12,10 +12,8 @@ import RouterLists from './RouterLists';
 import { UserContext } from './components/MyContext';
 const Provider = UserContext.Provider;
 
-// use css from scratch
-import './styles/Card.css';
-import './styles/Header.css';
 import './styles/index.css';
+
 import Loading from './components/Loading';
 
 function App() {
