@@ -25,6 +25,8 @@ function Card(props) {
 
 Card.propTypes = {
   foods: PropTypes.array.isRequired,
+  addItem: PropTypes.func,
+  removeItem: PropTypes.func,
 };
 
 Card.defaultProps = {

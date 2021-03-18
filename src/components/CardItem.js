@@ -17,8 +17,10 @@ function CardItem(props) {
           <br />
           <span className="source">{source}</span>
         </div>
-        {addItem && <button onClick={() => addItem(food)}>ADD</button>}
-        {removeItem && <button onClick={() => removeItem(id)}>REMOVE</button>}
+        <div className="product-action">
+          {addItem && <button onClick={() => addItem(food)}>ADD</button>}
+          {removeItem && <button onClick={() => removeItem(id)}>REMOVE</button>}
+        </div>
       </div>
     </Fragment>
   );
@@ -26,6 +28,8 @@ function CardItem(props) {
 
 CardItem.propTypes = {
   food: PropTypes.object.isRequired,
+  addItem: PropTypes.func,
+  removeItem: PropTypes.func,
 };
 
 export default CardItem;

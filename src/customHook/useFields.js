@@ -12,7 +12,6 @@ function useUserLogin() {
 
   useDebugValue(fields, (i) => `here's the values ${JSON.stringify(i)}`);
 
-  console.log(fields);
   return [fields, handleChange];
 }
 

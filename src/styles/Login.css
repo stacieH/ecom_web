@@ -1,0 +1,24 @@
+.login-wrapper {
+  display: grid;
+  grid-template-columns: 3fr 1.5fr;
+  grid-auto-rows: 100%;
+  border: 1px solid black;
+}
+
+.login-wrapper div {
+  justify-self: center;
+}
+
+.login-wrapper form {
+  justify-self: flex-end;
+  border: 1px solid black;
+  width: 100%;
+  padding: 30px;
+}
+
+label {
+  display: block;
+}
+label > span.req-mark {
+  color: crimson;
+}

@@ -55,7 +55,7 @@ module.exports={
             trailingComma: "all",
             bracketSpacing: true,
             jsxBracketSameLine: false,
-            extensions:['js','jsx']
+            // extensions:['js','jsx']
         })
     ]
 }

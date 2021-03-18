@@ -1,14 +1,14 @@
 import { useDebugValue, useState } from 'react';
 
 function useUserLogin() {
-  const [username, setUsername] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const setUser = (props) => {
-    const name = Object.keys(props);
-    name && name[0] === 'username'
-      ? setUsername(props[name])
-      : setPassword(props[name]);
+  const setUser = (e) => {
+    const {
+      target: { name, value },
+    } = e;
+    name === 'username' ? setUsername(value) : setPassword(value);
   };
 
   useDebugValue({ username }, (i) => `here's the values ${JSON.stringify(i)}`);
