@@ -15,16 +15,23 @@ div.card > .product-image{
   max-width: 100%;
   height: auto;
   border-radius: 3px;
-
 }
+
+div.card > .product-image-loading{
+  max-width: 220px;
+  height: 180px;
+  border-radius: 3px;
+}
+
 div.card > div.product-details{
   margin: 10px 0;
 }
+
 div.card > div.product-details > .source{
   font-size: 3.5mm;
 }
 
- @media screen and (max-width:1050px){
+@media screen and (max-width:1050px){
   .card-container{
     grid-template-columns: repeat(5, 1fr);
   }
