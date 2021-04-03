@@ -1,8 +1,8 @@
-import React, { Fragment, Suspense, useMemo, useState } from 'react';
+import React, { Fragment, Suspense /*, useMemo, useState*/ } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 // React Hook: Context
-import { UserContext } from './components/MyContext';
+// import { UserContext } from './components/MyContext';
 
 // React Redux: Hook
 import { Provider } from 'react-redux';
@@ -18,12 +18,12 @@ import RouterLists from './RouterLists';
 import './styles/index.css';
 
 function App() {
-  const [loginUser, setLoginUser] = useState(null);
+  // const [loginUser, setLoginUser] = useState(null);
 
-  const value = useMemo(() => ({ loginUser, setLoginUser }), [
-    loginUser,
-    setLoginUser,
-  ]);
+  // const value = useMemo(() => ({ loginUser, setLoginUser }), [
+  //   loginUser,
+  //   setLoginUser,
+  // ]);
 
   return (
     <Fragment>

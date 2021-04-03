@@ -20,20 +20,7 @@ function foods(state = foodState, action) {
         cart: state.cart.filter((item) => item.id !== action.id),
       };
     case FILTER_CART:
-      const state_cart = state.cart;
-      const {
-        filter: { direction, sort_by },
-      } = action;
-      let dir;
-      direction.toLowerCase() === 'ascending' ? (dir = 1) : (dir = -1);
-      const cart = state_cart.sort((a, b) => {
-        if (a[sort_by].toLowerCase() < b[sort_by].toLowerCase()) {
-          return -1 * dir;
-        } else {
-          return 1 * dir;
-        }
-      });
-      return { ...state, cart };
+      return { ...state, cart: action.cart };
     default:
       return state;
   }

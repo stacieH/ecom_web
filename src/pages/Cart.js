@@ -27,7 +27,8 @@ function Cart() {
 
   const handleFilterCartFood = () => {
     setLoading(true);
-    dispatch(filterCartFoods(fields));
+
+    dispatch(filterCartFoods(foods, fields));
   };
 
   const emptyCard = Array(10)
