@@ -13,7 +13,8 @@ module.exports={
     entry: APP_DIR + '/index.js',
     output: {
         path: BUILD_DIR,
-        filename:'app.build.js'
+        filename:'[name][contenthash].js',
+        assetModuleFilename:"assets/[contenthash][ext][query]"
     },
     module:{
         rules:[
