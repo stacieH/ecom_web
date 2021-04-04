@@ -41,6 +41,7 @@ module.exports={
         historyApiFallback: true,
     },
     plugins:[
+        new CleanWebpackPlugin(),
         new htmlWebpackPlugin({template:"./public/index.html"}),
         new ESLintPlugin({
             emitWarning: true,
