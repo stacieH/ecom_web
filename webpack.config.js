@@ -27,7 +27,7 @@ module.exports={
             },
             {
                 test:/\.(jpe?g|svg|gif|png)$/,
-                use:"file-loader"
+                type:"asset"
             }
         ],
     },
