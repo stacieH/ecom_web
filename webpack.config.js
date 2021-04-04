@@ -2,6 +2,7 @@ const path = require("path")
 const htmlWebpackPlugin = require("html-webpack-plugin")
 const ESLintPlugin = require('eslint-webpack-plugin')
 const PrettierPlugin = require('prettier-webpack-plugin')
+const {CleanWebpackPlugin} = require("clean-webpack-plugin")
 
 const BUILD_DIR = path.join(__dirname, "dist")
 const APP_DIR = path.join(__dirname, "src")
@@ -57,5 +58,7 @@ module.exports={
             jsxBracketSameLine: false,
             // extensions:['js','jsx']
         })
+        }),
+        new MiniCssExtractPlugin()
     ]
 }
