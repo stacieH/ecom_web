@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { createPortal } from 'react-dom';
 import { BsFillChatDotsFill } from 'react-icons/bs';
 
-import '../styles/ChatPortal.css';
+import '../styles/ChatPortal.scss';
 
 export function ChatPortal({ isShow = true }) {
   if (isShow) {

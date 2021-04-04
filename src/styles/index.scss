@@ -1,3 +1,5 @@
+@use "variables";
+
 body {
   margin: 0;
 }
@@ -12,7 +14,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(255, 111, 0);
+  background-color: variables.$primary_color;
   border: 2px solid rgb(243, 243, 243);
   border-radius: 10px;
 }

@@ -15,7 +15,6 @@ import ErrorBoundary from './components/ErrorBoundary';
 import Loading from './components/Loading';
 
 import RouterLists from './RouterLists';
-import './styles/index.css';
 
 function App() {
   // const [loginUser, setLoginUser] = useState(null);

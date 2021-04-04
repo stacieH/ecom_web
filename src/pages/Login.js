@@ -5,7 +5,7 @@ import useUserLogin from '../customHook/useUserLogin';
 import { UserContext } from '../components/MyContext';
 import Input from '../components/Input';
 
-import '../styles/Login.css';
+import '../styles/Login.scss';
 
 function Login() {
   const { setLoginUser } = useContext(UserContext);

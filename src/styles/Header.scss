@@ -1,8 +1,10 @@
+@use "variables";
+
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgb(255, 111, 0);
+  background-color: variables.$primary_color;
 }
 header > h1 {
   margin-left: 20px;
@@ -30,11 +32,11 @@ li.cart-navigation > span.badge {
   width: 15px;
   height: 15px;
   text-align: center;
-  color: rgb(16, 16, 16);
+  color: var(--text);
   font-size: 10px;
 }
 
 .brandname {
-  color: rgb(17, 17, 17);
+  color: var(--text);
   text-decoration: none;
 }

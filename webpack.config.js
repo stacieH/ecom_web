@@ -23,10 +23,11 @@ module.exports={
                 use: "babel-loader"
             },
             {
-                test:/\.css$/,
+                test:/\.(s[ac]|c)ss$/i,
                 use:[
                     MiniCssExtractPlugin.loader,
                     "css-loader", 
+                    "sass-loader"
                 ]
             },
             {
