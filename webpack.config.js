@@ -2,6 +2,7 @@ const path = require("path")
 const htmlWebpackPlugin = require("html-webpack-plugin")
 const ESLintPlugin = require('eslint-webpack-plugin')
 const PrettierPlugin = require('prettier-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const {CleanWebpackPlugin} = require("clean-webpack-plugin")
 
 const BUILD_DIR = path.join(__dirname, "dist")
@@ -23,7 +24,10 @@ module.exports={
             },
             {
                 test:/\.css$/,
-                use:["style-loader", "css-loader"]
+                use:[
+                    MiniCssExtractPlugin.loader,
+                    "css-loader", 
+                ]
             },
             {
                 test:/\.(jpe?g|svg|gif|png)$/,
