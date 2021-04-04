@@ -8,8 +8,12 @@ const {CleanWebpackPlugin} = require("clean-webpack-plugin")
 const BUILD_DIR = path.join(__dirname, "dist")
 const APP_DIR = path.join(__dirname, "src")
 
+let mode = 'development'
+if(process.env.NODE_ENV==="production"){
+    mode="production"
+}
 module.exports={
-    mode:"development",
+    mode,
     entry: APP_DIR + '/index.js',
     output: {
         path: BUILD_DIR,
@@ -19,7 +23,7 @@ module.exports={
     module:{
         rules:[
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(jsx?)$/,
                 exclude: /node-modules/,
                 use: "babel-loader"
             },
@@ -63,8 +67,6 @@ module.exports={
             trailingComma: "all",
             bracketSpacing: true,
             jsxBracketSameLine: false,
-            // extensions:['js','jsx']
-        })
         }),
         new MiniCssExtractPlugin()
     ]
