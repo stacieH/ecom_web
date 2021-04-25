@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack serve",
-    "test": "jest",
+    "test": "jest --watch",
     "build": "SET NODE_ENV=production & webpack",
     "dev-build": "webpack"
   },
