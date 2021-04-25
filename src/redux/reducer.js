@@ -1,31 +1,59 @@
-import { GET_FOODS, ADD_FOOD, REMOVE_FOOD, FILTER_CART } from './action';
+import { combineReducers } from 'redux';
+import {
+  SET_FOODS,
+  ADD_ITEM,
+  REMOVE_ITEM,
+  FILTER_ITEM,
+  SET_FOODS_LOADING,
+} from './action';
 
 const foodState = {
   foods: [],
+  isFoodLoading: true,
+};
+
+const cartState = {
   cart: [],
 };
 
 function foods(state = foodState, action) {
   switch (action.type) {
-    case GET_FOODS:
+    case SET_FOODS:
       return { ...state, foods: action.foods };
-    case ADD_FOOD:
-      return {
-        ...state,
-        cart: [action.payload, ...state.cart],
-      };
-    case REMOVE_FOOD:
-      return {
-        ...state,
-        cart: state.cart.filter((item) => item.id !== action.id),
-      };
-    case FILTER_CART:
-      return { ...state, cart: action.cart };
+
+    case SET_FOODS_LOADING:
+      return { ...state, isFoodLoading: action.payload };
+
     default:
       return state;
   }
 }
 
-const reducer = foods;
+function cart(state = cartState, action) {
+  switch (action.type) {
+    case ADD_ITEM:
+      return {
+        ...state,
+        cart: [action.payload, ...state.cart],
+      };
 
-export default reducer;
+    case REMOVE_ITEM:
+      return {
+        ...state,
+        cart: state.cart.filter((item) => item.id !== action.id),
+      };
+
+    case FILTER_ITEM:
+      return { ...state, cart: action.cart };
+
+    default:
+      return state;
+  }
+}
+
+const reducers = combineReducers({
+  main: foods,
+  cart,
+});
+
+export default reducers;
