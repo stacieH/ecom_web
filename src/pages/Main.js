@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { fetchFoods, addFood } from '../redux/action';
+import { addItem } from '../redux/action';
 
 import Card from '../components/Card';
 import { ChatPortal } from '../components/ChatPortal';
@@ -33,8 +33,8 @@ function Main() {
     getFoodie();
   }, []);
 
-  const handleAddFood = (food) => {
-    dispatch(addFood({ ...food, added_date: new Date() }));
+  const handleAddItem = (food) => {
+    dispatch(addItem({ ...food, added_date: new Date() }));
   };
 
   if (!loading && foods.length === 0) {

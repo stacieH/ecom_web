@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { removeFood, filterCartFoods } from '../redux/action';
+import { removeItem, filterItem } from '../redux/action';
 
 import useFields from '../customHook/useFields';
 import Card from '../components/Card';
@@ -9,26 +9,25 @@ import LoadingCard from '../components/LoadingCard';
 import Input from '../components/Input';
 
 function Cart() {
-  const [foods, setFoods] = useState([]);
   const [fields, setFields] = useFields();
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const { cart } = useSelector((state) => state);
+
+  const { cart } = useSelector((state) => state.cart);
 
   useEffect(() => {
-    setFoods(cart);
     setLoading(false);
   }, [loading]);
 
-  const handleRemoveFood = (id) => {
+  const handleRemoveItem = (id) => {
     setLoading(true);
-    dispatch(removeFood(id));
+    dispatch(removeItem(id));
   };
 
-  const handleFilterCartFood = () => {
+  const handleFilterItem = () => {
     setLoading(true);
 
-    dispatch(filterCartFoods(foods, fields));
+    dispatch(filterItem(cart, fields));
   };
 
   const emptyCard = Array(10)
@@ -66,12 +65,12 @@ function Cart() {
         value="source"
         onChange={setFields}
       />
-      <button onClick={handleFilterCartFood}>Filter</button>
+      <button onClick={handleFilterItem}>Filter</button>
       <div className="card-container">
         {loading ? (
           emptyCard
         ) : (
-          <Card foods={foods} removeItem={handleRemoveFood} />
+          <Card foods={cart} removeItem={handleRemoveItem} />
         )}
       </div>
     </Fragment>

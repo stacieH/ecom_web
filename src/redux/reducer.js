@@ -12,10 +12,6 @@ const foodState = {
   isFoodLoading: true,
 };
 
-const cartState = {
-  cart: [],
-};
-
 function foods(state = foodState, action) {
   switch (action.type) {
     case SET_FOODS:
@@ -29,6 +25,10 @@ function foods(state = foodState, action) {
   }
 }
 
+const cartState = {
+  cart: [],
+  isCartLoading: true,
+};
 function cart(state = cartState, action) {
   switch (action.type) {
     case ADD_ITEM:
