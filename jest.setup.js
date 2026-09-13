@@ -54,3 +54,24 @@ jest.mock('next/link', () => {
 
   return { __esModule: true, default: Link };
 });
+
+// App Router hooks need a mounted router, which unit tests do not have. Every
+// test shares this one mock router; tests/helpers/navigation.ts reads it.
+jest.mock('next/navigation', () => {
+  const mockRouter = {
+    push: jest.fn(),
+    replace: jest.fn(),
+    back: jest.fn(),
+    forward: jest.fn(),
+    refresh: jest.fn(),
+    prefetch: jest.fn(),
+  };
+
+  return {
+    __esModule: true,
+    mockRouter,
+    useRouter: () => mockRouter,
+    usePathname: () => '/',
+    useSearchParams: () => new URLSearchParams(),
+  };
+});
