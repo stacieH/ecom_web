@@ -61,6 +61,7 @@ describe('DishDialog', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Add to order ₱1,900' }));
 
     expect(screen.getByRole('alert')).toHaveTextContent('Choose up to 2 extras');
+    expect(screen.getByRole('group', { name: /^Extras/ })).toHaveAttribute('aria-invalid', 'true');
 
     fireEvent.click(screen.getByRole('checkbox', { name: /Truffle salt/ }));
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();

@@ -197,7 +197,12 @@ export default function DishDialog({
             }
 
             return (
-              <fieldset key={group.id} className={formStyles.fieldset} aria-describedby={describedBy(id, { error })}>
+              <fieldset
+                key={group.id}
+                className={formStyles.fieldset}
+                aria-describedby={describedBy(id, { error })}
+                aria-invalid={Boolean(error)}
+              >
                 <legend className={formStyles.legend}>
                   {group.maxSelect === 1 ? group.name : `${group.name}, up to ${group.maxSelect}`}
                   {group.minSelect === 0 && <span className={formStyles.optional}> (optional)</span>}
