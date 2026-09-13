@@ -12,7 +12,24 @@
 .intro {
   color: var(--ink-muted);
   max-width: 52ch;
+  margin-bottom: var(--space-5);
+}
+
+/* inline-block so Reveal's rise-in transform applies to the link. */
+.orderLink {
+  display: inline-block;
   margin-bottom: var(--space-12);
+  padding: var(--space-4) var(--space-6);
+  background: var(--accent);
+  color: var(--ink-inverse);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  transition: background-color 200ms ease;
+}
+
+.orderLink:hover {
+  background: var(--accent-strong);
 }
 
 .layout {
@@ -65,7 +82,7 @@
     grid-template-columns: 1fr;
   }
 
-  .intro {
+  .orderLink {
     margin-bottom: var(--space-8);
   }
 

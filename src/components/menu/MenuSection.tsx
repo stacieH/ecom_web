@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Reveal from '@/components/motion/Reveal';
 import SplitHeading from '@/components/motion/SplitHeading';
 import CourseNav from '@/components/menu/CourseNav';
@@ -16,6 +17,9 @@ export default function MenuSection() {
           Written each morning around what arrives. Prices are in Philippine pesos and
           include service.
         </p>
+        <Link href="/order" className={styles.orderLink}>
+          Order online
+        </Link>
       </Reveal>
 
       <div className={styles.layout}>

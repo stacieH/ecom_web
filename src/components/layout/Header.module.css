@@ -88,6 +88,24 @@
   background: var(--accent-strong);
 }
 
+/* Order is the outlined partner to the filled Reserve button. */
+.order {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink);
+  border: 1px solid var(--accent);
+  padding: calc(var(--space-3) - 1px) var(--space-5);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: border-color 200ms ease, color 200ms ease;
+}
+
+.order:hover {
+  border-color: var(--accent-strong);
+  color: var(--accent-strong);
+}
+
 .toggle {
   display: none;
 }
@@ -191,10 +209,19 @@
     border-bottom: 1px solid var(--border);
   }
 
+  .order,
   .reserve {
-    margin-top: var(--space-5);
-    padding: var(--space-4) var(--space-5);
     font-size: var(--text-sm);
     text-align: center;
+  }
+
+  .order {
+    margin-top: var(--space-5);
+    padding: calc(var(--space-4) - 1px) var(--space-5);
+  }
+
+  .reserve {
+    margin-top: var(--space-3);
+    padding: var(--space-4) var(--space-5);
   }
 }

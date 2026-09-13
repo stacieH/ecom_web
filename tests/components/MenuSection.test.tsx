@@ -32,4 +32,9 @@ describe('MenuSection', () => {
     render(<MenuSection />);
     expect(screen.getByText('₱1,980')).toBeInTheDocument();
   });
+
+  it('links to online ordering', () => {
+    render(<MenuSection />);
+    expect(screen.getByRole('link', { name: 'Order online' })).toHaveAttribute('href', '/order');
+  });
 });

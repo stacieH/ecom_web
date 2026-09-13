@@ -19,7 +19,7 @@ function sectionLinks() {
   const nav = screen.getByRole('navigation', { name: 'Primary' });
   return within(nav)
     .getAllByRole('link')
-    .filter((link) => link.textContent !== 'Reserve');
+    .filter((link) => !['Order', 'Reserve'].includes(link.textContent ?? ''));
 }
 
 describe('Header', () => {
@@ -71,6 +71,11 @@ describe('Header', () => {
     expect(screen.getByRole('link', { name: 'Reserve' })).toHaveAttribute('href', '/#contact');
   });
 
+  it('links Order to the online ordering page', () => {
+    renderWithSections();
+    expect(screen.getByRole('link', { name: 'Order' })).toHaveAttribute('href', '/order');
+  });
+
   it('marks itself scrolled once the page moves', () => {
     const { container } = renderWithSections();
     const header = container.querySelector('header') as HTMLElement;
@@ -98,7 +103,7 @@ describe('Header phone menu', () => {
   const toggle = () => screen.getByRole('button', { name: 'Navigation' });
   const menu = () => document.getElementById('site-menu') as HTMLElement;
 
-  it('starts collapsed and controls a list holding every section link and Reserve', () => {
+  it('starts collapsed and controls a list holding every section link, Order, and Reserve', () => {
     renderWithSections();
 
     expect(toggle()).toHaveAttribute('aria-expanded', 'false');
@@ -108,6 +113,7 @@ describe('Header phone menu', () => {
       'Gallery',
       'About',
       'Contact',
+      'Order',
       'Reserve',
     ]);
   });
@@ -133,6 +139,10 @@ describe('Header phone menu', () => {
 
     fireEvent.click(toggle());
     fireEvent.click(within(menu()).getByRole('link', { name: 'Reserve' }));
+    expect(toggle()).toHaveAttribute('aria-expanded', 'false');
+
+    fireEvent.click(toggle());
+    fireEvent.click(within(menu()).getByRole('link', { name: 'Order' }));
     expect(toggle()).toHaveAttribute('aria-expanded', 'false');
   });
 

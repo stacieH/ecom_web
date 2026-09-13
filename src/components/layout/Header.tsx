@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { venue } from '@/content/venue';
 import { useActiveSection } from '@/hooks/useActiveSection';
 import { SECTION_IDS, SECTION_LINKS, sectionHref } from '@/lib/sections';
@@ -58,9 +59,9 @@ export default function Header() {
 
   const closeMenu = () => setMenuOpen(false);
 
-  // Plain anchors, not next/link: every link targets a section of this one
-  // page, and Lenis's `anchors` option (SmoothScrollProvider) smooth-scrolls
-  // same-page links itself.
+  // Section links are plain anchors: they target this one page, and Lenis's
+  // `anchors` option (SmoothScrollProvider) smooth-scrolls same-page links
+  // itself. Order goes to its own page, so it uses next/link.
   return (
     <header ref={headerRef} className={styles.header} data-scrolled={scrolled}>
       <div className={styles.inner}>
@@ -100,6 +101,9 @@ export default function Header() {
                 );
               })}
             </div>
+            <Link href="/order" className={styles.order} onClick={closeMenu}>
+              Order
+            </Link>
             <a href={sectionHref('contact')} className={styles.reserve} onClick={closeMenu}>
               Reserve
             </a>
