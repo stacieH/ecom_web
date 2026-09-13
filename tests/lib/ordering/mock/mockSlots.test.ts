@@ -74,7 +74,7 @@ describe('planSlots', () => {
     expect(list.asapStartsAt).toBe('2026-10-02T09:30:00Z');
   });
 
-  it('adds the delivery area\'s extra minutes', () => {
+  it('adds the delivery area’s extra minutes', () => {
     const list = plan({ fulfilment: 'DELIVERY', extraMinutes: 10 });
 
     expect(list.slots[0].startsAt).toBe('2026-10-02T09:45:00Z');
