@@ -335,3 +335,54 @@
     display: grid;
   }
 }
+
+/* Checkout */
+.checkout {
+  display: grid;
+  gap: var(--space-8);
+  max-width: 760px;
+}
+
+.checkoutSection {
+  display: grid;
+  gap: var(--space-5);
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--border);
+}
+
+.sectionTitle {
+  font-size: var(--text-xl);
+}
+
+.dayTabs {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.dayTab {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--ink-muted);
+  font-family: inherit;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.dayTab[aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--ink);
+}
+
+.slotGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--space-3);
+}
+
+.placeBar {
+  display: grid;
+  gap: var(--space-4);
+}
