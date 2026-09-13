@@ -8,6 +8,7 @@ import type { LineChoice } from '@/lib/ordering/cart/cartReducer';
 import { useDeliveryAreas, useMenu, useOrderingStatus, useSlotDays } from '@/lib/ordering/queries';
 import type { MenuDish } from '@/lib/ordering/types';
 import { telHref } from '@/lib/phone';
+import CartPanel from './CartPanel';
 import { useCart } from './CartProvider';
 import DishCard from './DishCard';
 import DishDialog from './DishDialog';
@@ -125,6 +126,12 @@ export default function OrderMenu() {
             </section>
           ))}
         </div>
+
+        <CartPanel
+          menu={menu.data}
+          areas={areas.data}
+          onEditLine={(line, dish) => setDialog({ dish, editKey: line.key })}
+        />
       </div>
 
       {dialog && (

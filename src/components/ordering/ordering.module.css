@@ -215,3 +215,123 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Cart: a sticky panel beside the menu from 900px; below that, a bar fixed to
+   the bottom of the screen that opens the same panel as a sheet. */
+.cart {
+  position: sticky;
+  top: calc(var(--space-10) + var(--space-6));
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+}
+
+.cartBar {
+  display: none;
+}
+
+.cartSheet {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+.cartTitle {
+  font-size: var(--text-xl);
+}
+
+.cartLines {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cartLine {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.lineHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.lineName {
+  color: var(--ink);
+}
+
+.lineMeta {
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+}
+
+.lineActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.totals {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+}
+
+.totalRow dd {
+  margin: 0;
+}
+
+.grandTotal {
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border);
+  font-size: var(--text-base);
+  color: var(--ink);
+}
+
+@media (max-width: 899px) {
+  .layout {
+    padding-bottom: var(--space-16);
+  }
+
+  .cart {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 40;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-width: 1px 0 0;
+  }
+
+  .cartBar {
+    display: block;
+    width: 100%;
+    padding: var(--space-4) var(--gutter);
+    border: none;
+    background: var(--accent);
+    color: var(--ink-inverse);
+    font-family: inherit;
+    font-size: var(--text-sm);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .cartSheet {
+    display: none;
+    padding: var(--space-5) var(--gutter);
+  }
+
+  .cart[data-open='true'] .cartSheet {
+    display: grid;
+  }
+}
