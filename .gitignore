@@ -8,3 +8,5 @@ tsconfig.tsbuildinfo
 docs/
 .env
 .env*.local
+/test-results/
+/playwright-report/

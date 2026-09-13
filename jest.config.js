@@ -6,6 +6,8 @@ const createJestConfig = nextJest({ dir: './' });
 const config = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jest-environment-jsdom',
+  // Playwright specs live in e2e/ and use their own runner.
+  testPathIgnorePatterns: ['/node_modules/', '<rootDir>/e2e/'],
   moduleDirectories: ['node_modules', '<rootDir>/'],
   // Plain `import ... from '@/...'` is rewritten to a real path by the SWC
   // transform, but jest.mock('@/...') passes a bare string that transform
