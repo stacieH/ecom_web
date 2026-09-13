@@ -9,9 +9,9 @@ async function openAccount() {
   const client = createGuestClient();
   await registerVerifiedCustomer(client);
   visit('/account');
-  renderGuest(<AccountOverview />, { client });
+  const { queryClient } = renderGuest(<AccountOverview />, { client });
   await screen.findByRole('heading', { level: 2, name: 'Profile' });
-  return client;
+  return { client, queryClient };
 }
 
 describe('AccountOverview', () => {
@@ -21,7 +21,7 @@ describe('AccountOverview', () => {
   });
 
   it('links the account pages and saves profile changes, with the email read-only', async () => {
-    const client = await openAccount();
+    const { client } = await openAccount();
 
     const nav = screen.getByRole('navigation', { name: 'Account' });
     expect(within(nav).getAllByRole('link').map((link) => [link.textContent, link.getAttribute('href')])).toEqual([
@@ -46,7 +46,7 @@ describe('AccountOverview', () => {
   });
 
   it('changes the password only with the current one', async () => {
-    const client = await openAccount();
+    const { client } = await openAccount();
     const change = () => fireEvent.click(screen.getByRole('button', { name: 'Change password' }));
 
     change();
@@ -69,7 +69,7 @@ describe('AccountOverview', () => {
   });
 
   it('needs the password and the confirmation to delete, then leaves for the menu', async () => {
-    const client = await openAccount();
+    const { client } = await openAccount();
     const remove = () => fireEvent.click(screen.getByRole('button', { name: 'Delete account' }));
 
     remove();
@@ -87,7 +87,8 @@ describe('AccountOverview', () => {
   });
 
   it('signs out and returns to the menu', async () => {
-    const client = await openAccount();
+    const { client, queryClient } = await openAccount();
+    queryClient.setQueryData(['customer', 'order', 'O-TEST01'], { reference: 'O-TEST01' });
 
     fireEvent.click(screen.getByRole('button', { name: 'Sign out' }));
 
@@ -95,10 +96,11 @@ describe('AccountOverview', () => {
     expect(mockRouter().push).toHaveBeenCalledWith('/order');
     expect(mockRouter().replace).not.toHaveBeenCalled();
     await expect(client.getSession()).resolves.toBeNull();
+    expect(queryClient.getQueryData(['customer', 'order', 'O-TEST01'])).toBeUndefined();
   });
 
   it('explains a failed sign out and keeps the account open', async () => {
-    const client = await openAccount();
+    const { client } = await openAccount();
     jest.spyOn(client, 'signOut').mockRejectedValueOnce(new ApiError(0, 'NETWORK_ERROR', 'Offline'));
 
     fireEvent.click(screen.getByRole('button', { name: 'Sign out' }));

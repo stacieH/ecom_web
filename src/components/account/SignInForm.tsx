@@ -55,9 +55,11 @@ export default function SignInForm() {
     setSubmitting(true);
     try {
       const customer = await client.signIn(values.email, values.password);
+      queryClient.removeQueries({
+        queryKey: ['customer'],
+        predicate: (query) => query.queryKey[1] !== 'session',
+      });
       queryClient.setQueryData(orderingKeys.session, customer);
-      void queryClient.invalidateQueries({ queryKey: orderingKeys.addresses });
-      void queryClient.invalidateQueries({ queryKey: orderingKeys.orders });
       router.push(safeNextPath(new URLSearchParams(search ?? '').get('next')));
     } catch (error) {
       setUnverified(error instanceof ApiError && error.errorCode === 'EMAIL_NOT_VERIFIED');

@@ -26,8 +26,10 @@ export default function AccountOverview() {
   // RequireCustomer from sending the visitor to sign in on the way out.
   const leave = (message: string) => {
     setLeaving(message);
-    queryClient.removeQueries({ queryKey: orderingKeys.addresses });
-    queryClient.removeQueries({ queryKey: orderingKeys.orders });
+    queryClient.removeQueries({
+      queryKey: ['customer'],
+      predicate: (query) => query.queryKey[1] !== 'session',
+    });
     queryClient.setQueryData(orderingKeys.session, null);
     router.push('/order');
   };
