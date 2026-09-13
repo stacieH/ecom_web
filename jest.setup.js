@@ -33,3 +33,7 @@ if (typeof global.ResizeObserver !== 'function') {
     disconnect() {}
   };
 }
+
+// The API client reads these at call time. Tests never reach a real network.
+process.env.NEXT_PUBLIC_API_BASE_URL = 'http://api.test/v1';
+process.env.NEXT_PUBLIC_ORDERING_DATA_SOURCE = 'mock';

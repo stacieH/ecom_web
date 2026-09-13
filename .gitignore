@@ -5,3 +5,6 @@ coverage
 tsconfig.tsbuildinfo
 *.tsbuildinfo
 .superpowers
+docs/
+.env
+.env*.local
