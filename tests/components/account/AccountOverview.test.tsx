@@ -1,5 +1,6 @@
 import { fireEvent, screen, within } from '@testing-library/react';
 import AccountOverview from '@/components/account/AccountOverview';
+import { ApiError } from '@/lib/api/client';
 import { DEFAULT_CUSTOMER, registerVerifiedCustomer } from '../../helpers/mockOrdering';
 import { mockRouter, visit } from '../../helpers/navigation';
 import { createGuestClient, renderGuest } from '../../helpers/renderGuest';
@@ -94,5 +95,16 @@ describe('AccountOverview', () => {
     expect(mockRouter().push).toHaveBeenCalledWith('/order');
     expect(mockRouter().replace).not.toHaveBeenCalled();
     await expect(client.getSession()).resolves.toBeNull();
+  });
+
+  it('explains a failed sign out and keeps the account open', async () => {
+    const client = await openAccount();
+    jest.spyOn(client, 'signOut').mockRejectedValueOnce(new ApiError(0, 'NETWORK_ERROR', 'Offline'));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Sign out' }));
+
+    expect(await screen.findByText('Something went wrong. Please try again.')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Sign out' })).toBeEnabled();
+    expect(mockRouter().push).not.toHaveBeenCalled();
   });
 });
