@@ -386,3 +386,41 @@
   display: grid;
   gap: var(--space-4);
 }
+
+/* Payment, tracking, and order detail panels */
+.panel {
+  display: grid;
+  gap: var(--space-6);
+  max-width: 680px;
+}
+
+.detailList {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.detailList > div {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+.detailList dt {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink-subtle);
+}
+
+.detailList dd {
+  margin: 0;
+  color: var(--ink);
+}
+
+@media (max-width: 719px) {
+  .detailList > div {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+  }
+}
