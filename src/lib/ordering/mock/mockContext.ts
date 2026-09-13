@@ -1,8 +1,8 @@
 import type { DemoEmail } from '../types';
-import type { DemoState } from './mockStore';
+import type { DemoState, DemoStore } from './mockStore';
 
 export interface MockContext {
-  store: { read(): DemoState; update<T>(change: (state: DemoState) => T): T; reset(): void };
+  store: DemoStore;
   now: () => Date;
   random: () => number;
   hashPassword: (password: string, salt: string) => Promise<string>;
