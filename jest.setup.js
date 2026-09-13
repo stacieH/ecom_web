@@ -37,3 +37,20 @@ if (typeof global.ResizeObserver !== 'function') {
 // The API client reads these at call time. Tests never reach a real network.
 process.env.NEXT_PUBLIC_API_BASE_URL = 'http://api.test/v1';
 process.env.NEXT_PUBLIC_ORDERING_DATA_SOURCE = 'mock';
+
+// next/link handles clicks through the App Router, which unit tests do not
+// mount. Render it as the anchor it produces so tests can assert the href.
+jest.mock('next/link', () => {
+  const React = require('react');
+  const ROUTER_ONLY_PROPS = ['href', 'children', 'prefetch', 'replace', 'scroll'];
+
+  const Link = React.forwardRef(function Link(props, ref) {
+    const anchorProps = Object.fromEntries(
+      Object.entries(props).filter(([key]) => !ROUTER_ONLY_PROPS.includes(key)),
+    );
+    const href = typeof props.href === 'string' ? props.href : props.href.pathname;
+    return React.createElement('a', { ...anchorProps, ref, href }, props.children);
+  });
+
+  return { __esModule: true, default: Link };
+});
