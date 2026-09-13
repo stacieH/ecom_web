@@ -1,5 +1,6 @@
 import { act, fireEvent, screen } from '@testing-library/react';
 import CartPanel from '@/components/ordering/CartPanel';
+import { ApiError } from '@/lib/api/client';
 import type { CartState } from '@/lib/ordering/cart/cartReducer';
 import { buildMockMenu, MOCK_DELIVERY_AREAS } from '@/lib/ordering/mock/mockData';
 import { cartLine, createGuestClient, renderGuest } from '../../helpers/renderGuest';
@@ -89,5 +90,18 @@ describe('CartPanel', () => {
 
     expect(await screen.findByText('Orders are limited to 30 items')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Checkout' })).toBeDisabled();
+  });
+
+  it('offers a way to retry when the quote fails to load', async () => {
+    const client = createGuestClient();
+    jest.spyOn(client, 'quote').mockRejectedValueOnce(new ApiError(0, 'NETWORK_ERROR', 'Offline'));
+    renderCart({ lines: [cartLine('dish-tiramisu')] }, client);
+
+    expect(await screen.findByText('We couldn’t price your order. Please try again.')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Checkout' })).toBeDisabled();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Try again' }));
+
+    expect(await screen.findByRole('link', { name: 'Checkout' })).toHaveAttribute('href', '/order/checkout');
   });
 });

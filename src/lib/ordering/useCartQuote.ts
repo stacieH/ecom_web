@@ -61,5 +61,8 @@ export function useCartQuote(cart: CartState) {
     error: settled && query.error instanceof ApiError ? query.error : null,
     isUpdating: draftJson !== settledJson || query.isFetching,
     needsArea: cart.fulfilment === 'DELIVERY' && cart.areaId === null,
+    retry: () => {
+      void query.refetch();
+    },
   };
 }

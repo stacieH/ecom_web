@@ -22,7 +22,7 @@ export default function CartPanel({
   onEditLine: (line: CartLine, dish: MenuDish) => void;
 }) {
   const { cart, itemCount, dispatch } = useCart();
-  const { quote, error, isUpdating, needsArea } = useCartQuote(cart);
+  const { quote, error, isUpdating, needsArea, retry } = useCartQuote(cart);
   const [sheetOpen, setSheetOpen] = useState(false);
 
   const dishes = menu.categories.flatMap((category) => category.dishes);
@@ -39,10 +39,8 @@ export default function CartPanel({
           minimumOrderCentavos: quote.minimumOrderCentavos,
         })
       : undefined;
-  const quoteProblem =
-    error && Object.keys(lineErrors).length === 0 && !itemsError
-      ? 'We couldn’t price your order. Please try again.'
-      : undefined;
+  const quoteFailed = Boolean(error) && Object.keys(lineErrors).length === 0 && !itemsError;
+  const quoteProblem = quoteFailed ? 'We couldn’t price your order. Please try again.' : undefined;
 
   let blocker: string | undefined;
   if (hasLines) {
@@ -168,9 +166,16 @@ export default function CartPanel({
         )}
 
         {blocker && (
-          <p id="cart-blocker" className={formStyles.hint}>
-            {blocker}
-          </p>
+          <div id="cart-blocker" className={formStyles.hint}>
+            <p>{blocker}</p>
+            {quoteFailed && (
+              <div className={formStyles.actions}>
+                <button type="button" className={formStyles.secondary} onClick={() => retry()}>
+                  Try again
+                </button>
+              </div>
+            )}
+          </div>
         )}
 
         <div className={formStyles.actions}>

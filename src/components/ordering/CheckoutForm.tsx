@@ -24,6 +24,7 @@ import { useSlotDays } from '@/lib/ordering/queries';
 import { orderingKeys } from '@/lib/ordering/queryKeys';
 import type { Customer, DeliveryArea, Fulfilment, Menu, OrderingStatus } from '@/lib/ordering/types';
 import { useCartQuote } from '@/lib/ordering/useCartQuote';
+import { cartItemsRule } from '@/lib/ordering/validation/rules';
 import { lineFieldErrors } from '@/lib/ordering/validation/serverErrors';
 import AddressFields, { AddressField } from './AddressFields';
 import { useCart } from './CartProvider';
@@ -62,7 +63,7 @@ export default function CheckoutForm({
   const queryClient = useQueryClient();
   const router = useRouter();
   const { cart, itemCount, dispatch } = useCart();
-  const { draft, quote, error: quoteError, isUpdating, needsArea } = useCartQuote(cart);
+  const { draft, quote, error: quoteError, isUpdating, needsArea, retry: retryQuote } = useCartQuote(cart);
   const days = useSlotDays(cart.fulfilment, cart.areaId);
   const savedAddresses = useQuery({
     queryKey: orderingKeys.addresses,
@@ -205,6 +206,8 @@ export default function CheckoutForm({
 
   const dishes = menu.categories.flatMap((category) => category.dishes);
   const quoteLineErrors = quoteError ? lineFieldErrors(quoteError.fieldErrors) : {};
+  const itemsError = cartItemsRule(itemCount);
+  const quoteFailed = Boolean(quoteError) && Object.keys(quoteLineErrors).length === 0 && !itemsError;
   const addresses = savedAddresses.data ?? [];
 
   return (
@@ -249,6 +252,21 @@ export default function CheckoutForm({
         <h2 id="checkout-summary-title" className={styles.sectionTitle}>
           Order summary
         </h2>
+        {itemsError && (
+          <p className={formStyles.alert} role="alert">
+            {itemsError}
+          </p>
+        )}
+        {!itemsError && quoteFailed && (
+          <div className={formStyles.notice} role="alert">
+            <p>We couldn’t price your order.</p>
+            <div className={formStyles.actions}>
+              <button type="button" className={formStyles.secondary} onClick={() => retryQuote()}>
+                Try again
+              </button>
+            </div>
+          </div>
+        )}
         <details open>
           <summary>{`${itemCount} ${itemCount === 1 ? 'item' : 'items'}${quote ? ` · ${formatPeso(quote.totalCentavos)}` : ''}`}</summary>
           <ul className={styles.cartLines}>
@@ -500,7 +518,13 @@ export default function CheckoutForm({
           <button
             type="submit"
             className={formStyles.primary}
-            disabled={submitting || notice?.kind === 'closed' || notice?.kind === 'priceChanged'}
+            disabled={
+              submitting ||
+              notice?.kind === 'closed' ||
+              notice?.kind === 'priceChanged' ||
+              Boolean(itemsError) ||
+              quoteFailed
+            }
           >
             {submitting ? 'Placing order…' : `Place order${quote ? ` ${formatPeso(quote.totalCentavos)}` : ''}`}
           </button>

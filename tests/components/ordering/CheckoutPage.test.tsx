@@ -300,6 +300,19 @@ describe('CheckoutPage', () => {
     expect(placeOrderButton()).toBeDisabled();
   });
 
+  it('offers a way to retry when the quote fails to load with no cached price', async () => {
+    const client = createGuestClient();
+    jest.spyOn(client, 'quote').mockRejectedValueOnce(new ApiError(0, 'NETWORK_ERROR', 'Offline'));
+    renderGuest(<CheckoutPage />, { client, cart: { lines: [cartLine('dish-tiramisu')] } });
+
+    expect(await screen.findByText('We couldn’t price your order.')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Place order' })).toBeDisabled();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Try again' }));
+
+    expect(await screen.findByRole('button', { name: 'Place order ₱360' })).toBeInTheDocument();
+  });
+
   it('shows the held order after a cancelled payment and reopens payment', async () => {
     const client = createGuestClient();
     const placed = await client.placeOrder(tiramisuOrder({ paymentMethod: 'ONLINE' }), 'online-1');
