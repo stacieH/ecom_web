@@ -128,7 +128,8 @@ export function priceDraft({ draft, menu, areas, settings }: PricingInput): Quot
   if (draft.fulfilment === 'DELIVERY') {
     const area = areas.find((candidate) => candidate.id === draft.delivery?.areaId);
     if (!area) {
-      throw new ApiError(422, 'DELIVERY_AREA_UNAVAILABLE', 'We don\'t deliver to that area.', {
+      // eslint-disable-next-line quotes
+      throw new ApiError(422, 'DELIVERY_AREA_UNAVAILABLE', `We don't deliver to that area.`, {
         'delivery.areaId': ['Choose a delivery area'],
       });
     }
