@@ -150,7 +150,15 @@ function DemoTools({ demo }: { demo: DemoControls }) {
   const [message, setMessage] = useState<string | null>(null);
 
   // Menu, slots, quotes, tracked orders, and these demo lists all sit under ['ordering'].
-  const refresh = () => queryClient.invalidateQueries({ queryKey: ['ordering'] });
+  // A status change can also move a signed-in customer's own order history and
+  // order pages, so those caches refresh too, without touching the session.
+  const refresh = async () => {
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: ['ordering'] }),
+      queryClient.invalidateQueries({ queryKey: orderingKeys.orders }),
+      queryClient.invalidateQueries({ queryKey: ['customer', 'order'] }),
+    ]);
+  };
 
   const toggle = async (change: Partial<DemoScenarios>) => {
     setMessage(null);

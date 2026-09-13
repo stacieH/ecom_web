@@ -4,8 +4,10 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import formStyles from '@/components/forms/form.module.css';
 import OrderActions from '@/components/ordering/OrderActions';
 import OrderDetails from '@/components/ordering/OrderDetails';
+import { TRACK_REFRESH_MS } from '@/components/ordering/OrderTracker';
 import { ApiError } from '@/lib/api/client';
 import { useOrderingClient } from '@/lib/ordering/clientContext';
+import { isTerminal } from '@/lib/ordering/orderStatus';
 import { orderingKeys } from '@/lib/ordering/queryKeys';
 import RequireCustomer from './RequireCustomer';
 
@@ -15,6 +17,8 @@ function OrderView({ reference }: { reference: string }) {
   const order = useQuery({
     queryKey: orderingKeys.order(reference),
     queryFn: () => client.getOrder(reference),
+    refetchInterval: (query) =>
+      query.state.data && isTerminal(query.state.data.status) ? false : TRACK_REFRESH_MS,
   });
 
   const backLink = (

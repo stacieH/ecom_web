@@ -186,6 +186,7 @@ export default function CheckoutForm({
       onPlaced();
       dispatch({ type: 'CLEAR' });
       void queryClient.invalidateQueries({ queryKey: orderingKeys.orders });
+      void queryClient.invalidateQueries({ queryKey: orderingKeys.slotsRoot });
       router.push(response.checkoutUrl ?? `/order/track#token=${encodeURIComponent(response.trackingToken)}`);
     } catch (error) {
       const outcome = checkoutErrorOutcome(error, values);

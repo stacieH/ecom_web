@@ -4,6 +4,7 @@ import { ApiError } from '@/lib/api/client';
 import type { CartState } from '@/lib/ordering/cart/cartReducer';
 import type { MockOrderingClient } from '@/lib/ordering/mock/MockOrderingClient';
 import { rememberOrderToken } from '@/lib/ordering/orderTokens';
+import { orderingKeys } from '@/lib/ordering/queryKeys';
 import type { PlaceOrderRequest } from '@/lib/ordering/types';
 import { fakeDateAt } from '../../helpers/fakeDate';
 import { registerVerifiedCustomer } from '../../helpers/mockOrdering';
@@ -108,7 +109,8 @@ describe('CheckoutPage', () => {
   it('places a pay-at-pickup order, remembers its token, clears the cart, and opens tracking', async () => {
     const client = createGuestClient();
     const place = jest.spyOn(client, 'placeOrder');
-    const { cartStore } = await openCheckout('₱360', { client });
+    const { cartStore, queryClient } = await openCheckout('₱360', { client });
+    queryClient.setQueryData(orderingKeys.slotsRoot, []);
 
     await fillPickupDetails();
     fireEvent.click(placeOrderButton());
@@ -119,6 +121,7 @@ describe('CheckoutPage', () => {
     expect(window.sessionStorage.getItem(`cs-order-token:${order.reference}`)).toBe(trackingToken);
     expect(cartStore.getSnapshot().lines).toEqual([]);
     expect(screen.getByText('Taking you to your order…')).toBeInTheDocument();
+    expect(queryClient.getQueryState(orderingKeys.slotsRoot)?.isInvalidated).toBe(true);
   });
 
   it('sends an online order to the demo payment page', async () => {

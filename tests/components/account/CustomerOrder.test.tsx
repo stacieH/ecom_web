@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 import CustomerOrder from '@/components/account/CustomerOrder';
 import { fakeDateAt } from '../../helpers/fakeDate';
 import { registerVerifiedCustomer } from '../../helpers/mockOrdering';
@@ -45,6 +45,37 @@ describe('CustomerOrder', () => {
     ).toBeInTheDocument();
     expect(screen.getByText('Cancelled')).toBeInTheDocument();
     await expect(client.getOrder(order.reference)).resolves.toMatchObject({ status: 'CANCELLED' });
+  });
+
+  it('refreshes the order status every 20 seconds until it is terminal', async () => {
+    jest.useFakeTimers({ now: new Date(FRIDAY_5PM) });
+    const client = createGuestClient();
+    await registerVerifiedCustomer(client);
+    const { order } = await client.placeOrder(
+      {
+        fulfilment: 'PICKUP',
+        delivery: null,
+        lines: [{ dishId: 'dish-tiramisu', quantity: 1, optionIds: [], note: '' }],
+        timing: { mode: 'ASAP' },
+        customer: { name: 'Alex Rivera', email: 'alex@example.com', phone: '+63 917 555 0142' },
+        paymentMethod: 'PAY_AT_PICKUP',
+        expectedTotalCentavos: 36000,
+        notes: '',
+      },
+      'order-1',
+    );
+
+    renderGuest(<CustomerOrder reference={order.reference} />, { client });
+
+    expect(await screen.findByRole('heading', { level: 2, name: order.reference })).toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveTextContent('Order received');
+
+    await client.demo.advanceOrder(order.reference, 'ACCEPTED');
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(20_000);
+    });
+
+    expect(screen.getByRole('status')).toHaveTextContent('Preparing');
   });
 
   it('says when an order is not theirs', async () => {

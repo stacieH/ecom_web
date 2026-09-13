@@ -66,6 +66,7 @@ function TrackedOrder({ token }: { token: string }) {
         onCancel={async () => {
           const updated = await client.cancelTrackedOrder(token);
           queryClient.setQueryData(orderingKeys.tracked(token), updated);
+          void queryClient.invalidateQueries({ queryKey: orderingKeys.orders });
           return updated;
         }}
         onResumePayment={() => client.resumeTrackedPayment(token)}

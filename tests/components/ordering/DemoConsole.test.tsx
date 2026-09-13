@@ -1,8 +1,9 @@
 import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import DemoConsole from '@/components/ordering/DemoConsole';
+import { orderingKeys } from '@/lib/ordering/queryKeys';
 import type { PlaceOrderRequest } from '@/lib/ordering/types';
 import { fakeDateAt } from '../../helpers/fakeDate';
-import { DEFAULT_CUSTOMER } from '../../helpers/mockOrdering';
+import { DEFAULT_CUSTOMER, registerVerifiedCustomer } from '../../helpers/mockOrdering';
 import { cartLine, createGuestClient, renderGuest } from '../../helpers/renderGuest';
 
 const FRIDAY_5PM = '2026-10-02T09:00:00Z';
@@ -101,6 +102,24 @@ describe('DemoConsole', () => {
     fireEvent.change(screen.getByLabelText('Rider name'), { target: { value: 'Nico' } });
     fireEvent.change(screen.getByLabelText('Rider phone'), { target: { value: '+63 917 555 0100' } });
     await advance('On the way');
+  });
+
+  it('invalidates the customer order caches after advancing an order, without resetting the session', async () => {
+    const client = createGuestClient();
+    await registerVerifiedCustomer(client);
+    const { order } = await client.placeOrder(pickup, 'order-1');
+    const { queryClient } = renderGuest(<DemoConsole />, { client });
+    queryClient.setQueryData(orderingKeys.orders, []);
+    queryClient.setQueryData(orderingKeys.order(order.reference), {});
+    await waitFor(() => expect(queryClient.getQueryData(orderingKeys.session)).not.toBeNull());
+    const session = queryClient.getQueryData(orderingKeys.session);
+
+    fireEvent.click(await screen.findByRole('button', { name: `Advance status for ${order.reference}` }));
+    await screen.findByText(/· Preparing$/);
+
+    expect(queryClient.getQueryState(orderingKeys.orders)?.isInvalidated).toBe(true);
+    expect(queryClient.getQueryState(orderingKeys.order(order.reference))?.isInvalidated).toBe(true);
+    expect(queryClient.getQueryData(orderingKeys.session)).toEqual(session);
   });
 
   it('resets every demo record and the cart', async () => {

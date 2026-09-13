@@ -1,6 +1,7 @@
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import OrderTracker from '@/components/ordering/OrderTracker';
 import type { MockOrderingClient } from '@/lib/ordering/mock/MockOrderingClient';
+import { orderingKeys } from '@/lib/ordering/queryKeys';
 import type { PaymentMethod } from '@/lib/ordering/types';
 import { fakeDateAt } from '../../helpers/fakeDate';
 import { mockRouter, visit } from '../../helpers/navigation';
@@ -82,7 +83,8 @@ describe('OrderTracker', () => {
     const sessionId = new URLSearchParams((placed.checkoutUrl as string).split('?')[1]).get('session') as string;
     await client.demo.completeCheckout(sessionId, 'PAID');
 
-    renderGuest(<OrderTracker />, { client });
+    const { queryClient } = renderGuest(<OrderTracker />, { client });
+    queryClient.setQueryData(orderingKeys.orders, []);
 
     fireEvent.click(await screen.findByRole('button', { name: 'Cancel order' }));
     expect(
@@ -98,6 +100,7 @@ describe('OrderTracker', () => {
     ).toBeInTheDocument();
     expect(screen.getByText('Payment').nextSibling).toHaveTextContent('Pay online · Refund on its way');
     expect(screen.queryByRole('button', { name: 'Cancel order' })).not.toBeInTheDocument();
+    expect(queryClient.getQueryState(orderingKeys.orders)?.isInvalidated).toBe(true);
   });
 
   it('reopens payment for an online order that is still held', async () => {
