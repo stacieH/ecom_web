@@ -167,6 +167,7 @@ describe('RadioGroupField', () => {
 
     const group = screen.getByRole('radiogroup', { name: 'Payment' });
     expect(group).toHaveAttribute('aria-describedby', 'payment-error');
+    expect(group).toHaveAttribute('aria-invalid', 'true');
     expect(screen.getByRole('radio', { name: /Cash on delivery/ })).toBeDisabled();
 
     fireEvent.click(screen.getByRole('radio', { name: /Pay online/ }));

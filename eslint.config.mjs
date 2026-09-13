@@ -19,6 +19,20 @@ const eslintConfig = [
       ],
     },
   },
+  // The base no-unused-vars rule reports parameter names in TypeScript type
+  // signatures (function types, interface method signatures) even though
+  // they're documentation only; the TypeScript-aware rule understands those
+  // constructs and ignores them.
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    rules: {
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { vars: 'all', args: 'after-used', ignoreRestSiblings: false, argsIgnorePattern: '^_' },
+      ],
+    },
+  },
   {
     files: ['**/*.test.ts', '**/*.test.tsx'],
     languageOptions: {

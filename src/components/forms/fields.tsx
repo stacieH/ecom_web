@@ -63,7 +63,7 @@ interface CommonProps {
 
 interface TextFieldProps extends CommonProps {
   value: string;
-  onChange: (_value: string) => void;
+  onChange: (value: string) => void;
   type?: 'text' | 'email' | 'tel' | 'password' | 'number' | 'date';
   autoComplete?: string;
   inputMode?: 'text' | 'email' | 'tel' | 'numeric';
@@ -109,7 +109,7 @@ export function TextField({
 
 interface TextAreaFieldProps extends CommonProps {
   value: string;
-  onChange: (_value: string) => void;
+  onChange: (value: string) => void;
 }
 
 export function TextAreaField({
@@ -150,7 +150,7 @@ export interface ChoiceOption {
 
 interface SelectFieldProps extends CommonProps {
   value: string;
-  onChange: (_value: string) => void;
+  onChange: (value: string) => void;
   options: ChoiceOption[];
   placeholder?: string;
 }
@@ -199,7 +199,7 @@ export function SelectField({
 
 interface CheckboxFieldProps extends Omit<CommonProps, 'optional'> {
   checked: boolean;
-  onChange: (_checked: boolean) => void;
+  onChange: (checked: boolean) => void;
 }
 
 export function CheckboxField({
@@ -235,7 +235,7 @@ export function CheckboxField({
 interface RadioGroupFieldProps extends Omit<CommonProps, 'label' | 'optional'> {
   legend: ReactNode;
   value: string;
-  onChange: (_value: string) => void;
+  onChange: (value: string) => void;
   options: ChoiceOption[];
 }
 
@@ -256,6 +256,7 @@ export function RadioGroupField({
       role="radiogroup"
       aria-labelledby={`${id}-legend`}
       aria-describedby={describedBy(id, { hint, error })}
+      aria-invalid={Boolean(error)}
     >
       <legend id={`${id}-legend`} className={styles.legend}>
         {legend}

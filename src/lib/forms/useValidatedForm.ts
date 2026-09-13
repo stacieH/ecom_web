@@ -2,24 +2,24 @@
 import { useState } from 'react';
 
 export type FieldErrors<V> = Partial<Record<keyof V, string>>;
-export type FieldRule<V, K extends keyof V> = (_value: V[K], _values: V) => string | undefined;
+export type FieldRule<V, K extends keyof V> = (value: V[K], values: V) => string | undefined;
 export type FieldRules<V> = { [K in keyof V]?: FieldRule<V, K> };
 
 export interface ValidatedForm<V> {
   values: V;
   errors: FieldErrors<V>;
-  setValue: <K extends keyof V>(_name: K, _value: V[K]) => void;
+  setValue: <K extends keyof V>(name: K, value: V[K]) => void;
   /** Change several fields at once; pass related changes together in one call. */
-  setValues: (_changes: Partial<V>) => void;
-  blur: (_name: keyof V) => void;
+  setValues: (changes: Partial<V>) => void;
+  blur: (name: keyof V) => void;
   /** Checks every field; returns the invalid ones in the order the rules list them. */
   validateAll: () => (keyof V)[];
-  setServerErrors: (_errors: FieldErrors<V>) => void;
-  reset: (_values: V) => void;
+  setServerErrors: (errors: FieldErrors<V>) => void;
+  reset: (values: V) => void;
 }
 
 function runRule<V>(rules: FieldRules<V>, name: keyof V, values: V): string | undefined {
-  const rule = rules[name] as ((_value: V[keyof V], _all: V) => string | undefined) | undefined;
+  const rule = rules[name] as ((value: V[keyof V], all: V) => string | undefined) | undefined;
   return rule ? rule(values[name], values) : undefined;
 }
 
