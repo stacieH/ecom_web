@@ -123,7 +123,7 @@ export default function CartPanel({
                         +
                       </button>
                     </div>
-                    {dish && dish.orderable && !dish.soldOut && !lineErrors[index] && (
+                    {dish && dish.orderable && !dish.soldOut && (
                       <button
                         type="button"
                         className={styles.textButton}

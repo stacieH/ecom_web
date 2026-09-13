@@ -6,9 +6,9 @@ import { cartLine, createGuestClient, renderGuest } from '../../helpers/renderGu
 
 const menu = buildMockMenu();
 
-function renderCart(cart: Partial<CartState>, client = createGuestClient()) {
+function renderCart(cart: Partial<CartState>, client = createGuestClient(), cartMenu = menu) {
   const onEditLine = jest.fn();
-  const view = renderGuest(<CartPanel menu={menu} areas={MOCK_DELIVERY_AREAS} onEditLine={onEditLine} />, {
+  const view = renderGuest(<CartPanel menu={cartMenu} areas={MOCK_DELIVERY_AREAS} onEditLine={onEditLine} />, {
     client,
     cart,
   });
@@ -73,7 +73,11 @@ describe('CartPanel', () => {
     const client = createGuestClient();
     await client.demo.setScenarios({ soldOutDishSlugs: ['ribeye'] });
 
-    renderCart({ lines: [cartLine('dish-ribeye', ['ribeye-doneness-rare'])] }, client);
+    renderCart(
+      { lines: [cartLine('dish-ribeye', ['ribeye-doneness-rare'])] },
+      client,
+      buildMockMenu({ soldOutDishSlugs: ['ribeye'] }),
+    );
 
     expect(await screen.findByRole('alert')).toHaveTextContent('This dish is no longer available');
     expect(screen.queryByRole('button', { name: 'Edit Dry-Aged Ribeye' })).not.toBeInTheDocument();
