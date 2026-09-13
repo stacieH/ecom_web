@@ -98,7 +98,9 @@ describe('CartPanel', () => {
     renderCart({ lines: [cartLine('dish-tiramisu')] }, client);
 
     expect(await screen.findByText('We couldn’t price your order. Please try again.')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Checkout' })).toBeDisabled();
+    const checkoutButton = screen.getByRole('button', { name: 'Checkout' });
+    expect(checkoutButton).toBeDisabled();
+    expect(checkoutButton).toHaveAccessibleDescription('We couldn’t price your order. Please try again.');
 
     fireEvent.click(screen.getByRole('button', { name: 'Try again' }));
 

@@ -16,3 +16,14 @@ export const orderingKeys = {
   demo: ['ordering', 'demo'] as const,
   checkoutSession: (id: string) => ['ordering', 'demo', 'checkout', id] as const,
 };
+
+/**
+ * True for a cached `['customer', …]` query that sign-in and sign-out should
+ * clear. Keeps the session (overwritten by the caller instead) and a
+ * verify-email result (`VerifyEmail.tsx` caches it with `gcTime: Infinity` so
+ * a used link keeps showing its already-checked result instead of re-running
+ * against a token the server has since consumed).
+ */
+export function isDisposableCustomerQuery(query: { queryKey: readonly unknown[] }): boolean {
+  return query.queryKey[1] !== 'session' && query.queryKey[1] !== 'verify-email';
+}

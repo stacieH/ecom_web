@@ -89,6 +89,7 @@ describe('AccountOverview', () => {
   it('signs out and returns to the menu', async () => {
     const { client, queryClient } = await openAccount();
     queryClient.setQueryData(['customer', 'order', 'O-TEST01'], { reference: 'O-TEST01' });
+    queryClient.setQueryData(['customer', 'verify-email', 'tok'], true);
 
     fireEvent.click(screen.getByRole('button', { name: 'Sign out' }));
 
@@ -97,6 +98,7 @@ describe('AccountOverview', () => {
     expect(mockRouter().replace).not.toHaveBeenCalled();
     await expect(client.getSession()).resolves.toBeNull();
     expect(queryClient.getQueryData(['customer', 'order', 'O-TEST01'])).toBeUndefined();
+    expect(queryClient.getQueryData(['customer', 'verify-email', 'tok'])).toBe(true);
   });
 
   it('explains a failed sign out and keeps the account open', async () => {

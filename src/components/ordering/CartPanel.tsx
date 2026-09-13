@@ -166,8 +166,8 @@ export default function CartPanel({
         )}
 
         {blocker && (
-          <div id="cart-blocker" className={formStyles.hint}>
-            <p>{blocker}</p>
+          <div className={formStyles.hint}>
+            <p id="cart-blocker">{blocker}</p>
             {quoteFailed && (
               <div className={formStyles.actions}>
                 <button type="button" className={formStyles.secondary} onClick={() => retry()}>

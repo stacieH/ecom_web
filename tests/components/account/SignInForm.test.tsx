@@ -68,12 +68,14 @@ describe('SignInForm', () => {
     visit('/account/sign-in?next=%2Forder%2Fcheckout');
     const { queryClient } = renderGuest(<SignInForm />, { client });
     queryClient.setQueryData(['customer', 'order', 'O-TEST01'], { reference: 'O-TEST01' });
+    queryClient.setQueryData(['customer', 'verify-email', 'tok'], true);
 
     signInWith(DEFAULT_CUSTOMER.email, DEFAULT_CUSTOMER.password);
 
     await waitFor(() => expect(mockRouter().push).toHaveBeenCalledWith('/order/checkout'));
     expect(queryClient.getQueryData(orderingKeys.session)).toMatchObject({ email: DEFAULT_CUSTOMER.email });
     expect(queryClient.getQueryData(['customer', 'order', 'O-TEST01'])).toBeUndefined();
+    expect(queryClient.getQueryData(['customer', 'verify-email', 'tok'])).toBe(true);
   });
 
   it('goes to the account page instead of an outside address', async () => {

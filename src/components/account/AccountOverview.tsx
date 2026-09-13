@@ -5,7 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FormAlert } from '@/components/forms/fields';
 import formStyles from '@/components/forms/form.module.css';
 import { useOrderingClient } from '@/lib/ordering/clientContext';
-import { orderingKeys } from '@/lib/ordering/queryKeys';
+import { isDisposableCustomerQuery, orderingKeys } from '@/lib/ordering/queryKeys';
 import { accountErrorMessage } from '@/lib/ordering/validation/accountRules';
 import AccountNav from './AccountNav';
 import ChangePasswordSection from './ChangePasswordSection';
@@ -26,10 +26,7 @@ export default function AccountOverview() {
   // RequireCustomer from sending the visitor to sign in on the way out.
   const leave = (message: string) => {
     setLeaving(message);
-    queryClient.removeQueries({
-      queryKey: ['customer'],
-      predicate: (query) => query.queryKey[1] !== 'session',
-    });
+    queryClient.removeQueries({ queryKey: ['customer'], predicate: isDisposableCustomerQuery });
     queryClient.setQueryData(orderingKeys.session, null);
     router.push('/order');
   };

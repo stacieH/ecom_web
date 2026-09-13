@@ -106,20 +106,25 @@ describe('DemoConsole', () => {
 
   it('invalidates the customer order caches after advancing an order, without resetting the session', async () => {
     const client = createGuestClient();
-    await registerVerifiedCustomer(client);
+    const { customer } = await registerVerifiedCustomer(client);
     const { order } = await client.placeOrder(pickup, 'order-1');
     const { queryClient } = renderGuest(<DemoConsole />, { client });
     queryClient.setQueryData(orderingKeys.orders, []);
     queryClient.setQueryData(orderingKeys.order(order.reference), {});
-    await waitFor(() => expect(queryClient.getQueryData(orderingKeys.session)).not.toBeNull());
-    const session = queryClient.getQueryData(orderingKeys.session);
+    await waitFor(() =>
+      expect(queryClient.getQueryData(orderingKeys.session)).toMatchObject({ email: customer.email }),
+    );
+    const sessionUpdatedAt = queryClient.getQueryState(orderingKeys.session)?.dataUpdatedAt;
+    const invalidate = jest.spyOn(queryClient, 'invalidateQueries');
 
     fireEvent.click(await screen.findByRole('button', { name: `Advance status for ${order.reference}` }));
     await screen.findByText(/· Preparing$/);
 
     expect(queryClient.getQueryState(orderingKeys.orders)?.isInvalidated).toBe(true);
     expect(queryClient.getQueryState(orderingKeys.order(order.reference))?.isInvalidated).toBe(true);
-    expect(queryClient.getQueryData(orderingKeys.session)).toEqual(session);
+    expect(queryClient.getQueryState(orderingKeys.session)?.isInvalidated).toBe(false);
+    expect(queryClient.getQueryState(orderingKeys.session)?.dataUpdatedAt).toBe(sessionUpdatedAt);
+    expect(invalidate).not.toHaveBeenCalledWith(expect.objectContaining({ queryKey: orderingKeys.session }));
   });
 
   it('resets every demo record and the cart', async () => {

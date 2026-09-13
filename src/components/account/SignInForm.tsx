@@ -11,7 +11,7 @@ import { fixFieldsMessage } from '@/lib/ordering/checkoutErrors';
 import { useOrderingClient } from '@/lib/ordering/clientContext';
 import { useLocationSearch } from '@/lib/ordering/fragment';
 import { safeNextPath } from '@/lib/ordering/nextPath';
-import { orderingKeys } from '@/lib/ordering/queryKeys';
+import { isDisposableCustomerQuery, orderingKeys } from '@/lib/ordering/queryKeys';
 import { accountErrorMessage, signInPasswordRule } from '@/lib/ordering/validation/accountRules';
 import { emailRule } from '@/lib/ordering/validation/rules';
 
@@ -55,10 +55,7 @@ export default function SignInForm() {
     setSubmitting(true);
     try {
       const customer = await client.signIn(values.email, values.password);
-      queryClient.removeQueries({
-        queryKey: ['customer'],
-        predicate: (query) => query.queryKey[1] !== 'session',
-      });
+      queryClient.removeQueries({ queryKey: ['customer'], predicate: isDisposableCustomerQuery });
       queryClient.setQueryData(orderingKeys.session, customer);
       router.push(safeNextPath(new URLSearchParams(search ?? '').get('next')));
     } catch (error) {
