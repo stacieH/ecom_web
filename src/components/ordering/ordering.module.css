@@ -483,3 +483,25 @@
     grid-auto-flow: row;
   }
 }
+
+/* Demo console */
+.outbox {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.email {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+}
+
+.demoAdvance {
+  display: grid;
+  gap: var(--space-3);
+}
